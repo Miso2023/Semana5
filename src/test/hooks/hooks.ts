@@ -1,18 +1,28 @@
-import { BeforeAll, AfterAll } from "@cucumber/cucumber";
+import { BeforeAll, AfterAll, Before, After } from "@cucumber/cucumber";
 import { pageFixture } from "./pageFixture";
-import { Browser, Page, chromium } from "@playwright/test";
+import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 
 let browser: Browser;
 let page: Page;
+let context: BrowserContext;
 BeforeAll(async function(){
-    const browser = await chromium.launch({headless:false}); //si quisieramos el chromium headless {headless:true}
-    const context = await browser.newContext();
-    const page = await context.newPage();
+    browser = await chromium.launch({headless:false}); //si quisieramos el chromium headless {headless:true}
+});
+Before(async function(){
+    
+    context = await browser.newContext();
+    page = await context.newPage();
     pageFixture.page=page;
 
 
 });
-AfterAll(async function (){
+After(async function ({pickle}){
+    const img= await pageFixture.page.screenshot({path:'./test-result/screenshots/${pickle.name}.png' ,type:"png"})
+    await this.attach(img, "image/png")
     await pageFixture.page.close();
-    await browser.close();
+    await context.close();
 })
+AfterAll(async function(){
+    await browser.close();
+});
+
