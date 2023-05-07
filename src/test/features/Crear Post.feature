@@ -43,19 +43,18 @@ Feature: Post autentication
     And User goes to published posts
     And User confirms published to have title as "test_4"
     And User confirms published to have the link as "http://localhost:2368/ghost/#/signin"
-  Scenario: Post with Link must be created and navigated
+  Scenario: Post with tag must be created
     And User enter the username as "eg.soto@uniandes.edu.co"
     And User enter the password as "Supermean_1"
     And User click the login button 
     And User goes to create a new post
     And User fills the title as "test_5"
     And User fills the description as "test_5"
-    And User fills the link as "http://localhost:2368/ghost/#/signin"
+    And User fills the tag as "http://localhost:2368/ghost/#/signin"
     Then User publishes the post
     And User goes to published posts
-    And User confirms published to have title as "test_5"
-    And User confirms published to have the link as "http://localhost:2368/ghost/#/signin"
-    And User navigates to link as "http://localhost:2368/ghost/#/signin"
+    And User confirms published to have tag in post as "test_5"
+
     
   
 

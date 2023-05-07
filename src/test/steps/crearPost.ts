@@ -94,7 +94,7 @@ Then('User confirms published to have title as {string}', async function (test_n
 });
 Then('User confirms post Schedule to have title as {string}', async function (string) {
     // Write code here that turns the phrase above into concrete actions
-    await pageFixture.page.getByRole('link', { name: 'test_3 By Erich Giusseppe - a few seconds ago Scheduled to be published at 11:34 (UTC) on 07 May 3000 to All subscribers' }).click({force: true});
+    await pageFixture.page.getByRole('link', { name: `${string} By Erich Giusseppe - a few seconds ago Scheduled`}).click({force: true});
   });
   Then('User goes to published Schedule posts', async function () {
     await pageFixture.page.getByRole('button', { name: 'Editor' }).click();
@@ -106,6 +106,7 @@ Given('User fills the link as {string}', async function (string) {
     await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
     await pageFixture.page.getByRole('button', { name: 'Meta data' }).click();
     await pageFixture.page.locator('input[name="post-setting-canonicalUrl"]').fill('http://localhost:2368/ghost/#/signin');
+    await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
 });
 
 
@@ -116,6 +117,17 @@ Then('User confirms published to have the link as {string}', async function (str
     if(value !== string) {
         throw new Error(string);
     }
+    await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
 });
+Given('User fills the tag as {string}', async function (string) {
+    await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
+    await pageFixture.page.locator('#tag-input input').click();
+    await pageFixture.page.getByRole('option', { name: 'News' }).click();
+  });
+
+
+  Then('User confirms published to have tag in post as {string}', async function (string) {
+    await pageFixture.page.getByRole('link', { name: `${string} By Erich Giusseppe in News - a few seconds ago Published` }).click({force: true});
+  });
 
 
