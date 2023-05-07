@@ -21,6 +21,41 @@ Feature: Post autentication
     And User fills the description as "test_2"
     And User goes to draft posts
     And User confirms draft to have title as "test_2"
+  Scenario: Post Schedule must be created
+    And User enter the username as "eg.soto@uniandes.edu.co"
+    And User enter the password as "Supermean_1"
+    And User click the login button 
+    And User goes to create a new post
+    And User fills the title as "test_3"
+    And User fills the description as "test_3"
+    Then User publishes the post with Schedule
+    And User goes to published Schedule posts
+    And User confirms post Schedule to have title as "test_3"
+  Scenario: Post with Link must be created
+    And User enter the username as "eg.soto@uniandes.edu.co"
+    And User enter the password as "Supermean_1"
+    And User click the login button 
+    And User goes to create a new post
+    And User fills the title as "test_4"
+    And User fills the description as "test_4"
+    And User fills the link as "http://localhost:2368/ghost/#/signin"
+    Then User publishes the post
+    And User goes to published posts
+    And User confirms published to have title as "test_4"
+    And User confirms published to have the link as "http://localhost:2368/ghost/#/signin"
+  Scenario: Post with Link must be created and navigated
+    And User enter the username as "eg.soto@uniandes.edu.co"
+    And User enter the password as "Supermean_1"
+    And User click the login button 
+    And User goes to create a new post
+    And User fills the title as "test_5"
+    And User fills the description as "test_5"
+    And User fills the link as "http://localhost:2368/ghost/#/signin"
+    Then User publishes the post
+    And User goes to published posts
+    And User confirms published to have title as "test_5"
+    And User confirms published to have the link as "http://localhost:2368/ghost/#/signin"
+    And User navigates to link as "http://localhost:2368/ghost/#/signin"
     
   
 

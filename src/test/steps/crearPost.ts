@@ -57,6 +57,9 @@ Then('User confirms published to have title as {string}', async function (test_n
     // Write code here that turns the phrase above into concrete actions
     await pageFixture.page.getByPlaceholder('Post title').fill(string);
   });
+  Then('User navigates to link as {string}', async function (string) {
+    await pageFixture.page.goto(string)
+  });
 
 
 
@@ -77,5 +80,42 @@ Then('User confirms published to have title as {string}', async function (test_n
     await pageFixture.page.getByRole('link', { name: 'Posts' }).click();
     await pageFixture.page.getByRole('link', { name: 'Drafts', exact: true }).click();
   });
+  Given('User publishes the post with Schedule', async function () {
+    
+    await pageFixture.page.getByRole('button', { name: 'Publish' }).click();
+    await pageFixture.page.getByRole('button', { name: 'Right now' }).click();
+    await pageFixture.page.getByText('Schedule for later').click();
+    await pageFixture.page.getByPlaceholder('YYYY-MM-DD').fill('3000-05-07');
+    await pageFixture.page.getByRole('textbox').nth(2).fill('11:34');
+    await pageFixture.page.getByRole('button', { name: 'Continue, final review →' }).click();
+    await pageFixture.page.screenshot({path:"screenshot.png"})
+    await pageFixture.page.getByRole('button', { name: 'Publish post, on May 7th' }).waitFor();
+    await pageFixture.page.getByRole('button', { name: 'Publish post, on May 7th' }).click({force: true});
+});
+Then('User confirms post Schedule to have title as {string}', async function (string) {
+    // Write code here that turns the phrase above into concrete actions
+    await pageFixture.page.getByRole('link', { name: 'test_3 By Erich Giusseppe - a few seconds ago Scheduled to be published at 11:34 (UTC) on 07 May 3000 to All subscribers' }).click({force: true});
+  });
+  Then('User goes to published Schedule posts', async function () {
+    await pageFixture.page.getByRole('button', { name: 'Editor' }).click();
+    await pageFixture.page.getByRole('link', { name: 'Posts' }).click();
+    await pageFixture.page.getByRole('link', { name: 'Scheduled', exact: true }).click();
+  });
+
+Given('User fills the link as {string}', async function (string) {
+    await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
+    await pageFixture.page.getByRole('button', { name: 'Meta data' }).click();
+    await pageFixture.page.locator('input[name="post-setting-canonicalUrl"]').fill('http://localhost:2368/ghost/#/signin');
+});
+
+
+Then('User confirms published to have the link as {string}', async function (string) {
+    await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
+    await pageFixture.page.getByRole('button', { name: 'Meta data' }).click();
+    const value= await pageFixture.page.locator('input[name="post-setting-canonicalUrl"]').inputValue();
+    if(value !== string) {
+        throw new Error(string);
+    }
+});
 
 
