@@ -105,7 +105,7 @@ Then('User confirms post Schedule to have title as {string}', async function (st
 Given('User fills the link as {string}', async function (string) {
     await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
     await pageFixture.page.getByRole('button', { name: 'Meta data' }).click();
-    await pageFixture.page.locator('input[name="post-setting-canonicalUrl"]').fill('http://localhost:2368/ghost/#/signin');
+    await pageFixture.page.locator('input[name="post-setting-canonicalUrl"]').fill(string);
     await pageFixture.page.getByRole('button', { name: 'Settings' }).click();
 });
 

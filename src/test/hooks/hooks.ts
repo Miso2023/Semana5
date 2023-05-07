@@ -1,6 +1,8 @@
 import { BeforeAll, AfterAll, Before, After } from "@cucumber/cucumber";
 import { pageFixture } from "./pageFixture";
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
+import { LoginPage } from "../pages/loginPage";
+import { PrincipalPage } from "../pages/principalPage";
 
 let browser: Browser;
 let page: Page;
@@ -13,7 +15,8 @@ Before(async function(){
     context = await browser.newContext();
     page = await context.newPage();
     pageFixture.page=page;
-
+    pageFixture.login_page=new LoginPage(page)
+    pageFixture.principal_page=new PrincipalPage(page)
 
 });
 After(async function ({pickle}){
